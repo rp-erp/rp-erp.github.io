@@ -1,4 +1,4 @@
-import { assetPrefix, description } from "../config/constants";
+import { description } from "../config/constants";
 
 export function Head() {
   const title = "RP-ERP Knowledge Base";
@@ -13,7 +13,7 @@ export function Head() {
       <link
         rel="icon"
         type="image/x-icon"
-        href={`${assetPrefix}/favicon.ico`}
+        href={`/favicon.ico`}
       />
     </>
   );

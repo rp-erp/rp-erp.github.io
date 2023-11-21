@@ -32,17 +32,18 @@ The release cycle has 5 phases
   Deploy branches will be used for CI/CD pipeline in the future
 </Callout>
 
-### `Snapshot` branches
-
-- All the branches such as: `RPGlobal`, `RPServiceGate`, `RPWebMVC` and `RPErpApp` are `Snapshot` branches.
-- `Snapshot` branches includes the current version of the previous release. 
-- `Snapshot` branches is used for backup if there's big impact on the current release which cannot rollback.
 
 There're 2 deploy branches: `deploy/erptest` and `deploy/production`
 
 - `deploy/erptest` is to deploy on **ErpTest** environment
 - `deploy/production` is to deploy on **Production** environment
 - all commits in both `deploy/erptest` and `deploy/production` are synced from `Release` branch by using git command `git reset --hard Release-<YYYYMMDD>`
+
+### `Snapshot` branches
+
+- All the branches such as: `RPGlobal`, `RPServiceGate`, `RPWebMVC` and `RPErpApp` are `Snapshot` branches.
+- `Snapshot` branches includes the current version of the previous release. 
+- `Snapshot` branches is used for backup if there's big impact on the current release which cannot rollback.
 
 Here is the diagram describings how the branches work.
 
@@ -84,7 +85,7 @@ This section is to show WHO do WHAT. There're 3 basic roles in this release cycl
   The list of open pull requests
 
   ![](../../public/how-to-create-pull-request/pull_request_4.png)
-  
+
     - Review and Merge Pull Requests of team members into `Test` branch. Note that **Use `Squash and Merge` to combine multiple commits into single commit, it helps for cherry-pick a lot**
     - `cherry-pick` merged commits into `Release` branch
     - `cherry-pick` hotfix commits into `Deploy` branch from `Release` branch (*If any*)

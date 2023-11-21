@@ -8,7 +8,7 @@ export function useNextSeoProps() {
     description,
   };
   if (route !== "/") {
-    result.titleTemplate = "%s – Reading notes";
+    result.titleTemplate = "%s – RP-ERP Knowledge Base";
   } else {
     result.titleTemplate = "%s";
   }

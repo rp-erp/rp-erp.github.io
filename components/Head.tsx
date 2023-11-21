@@ -1,7 +1,7 @@
 import { assetPrefix, description } from "../config/constants";
 
 export function Head() {
-  const title = "Reading notes";
+  const title = "RP-ERP Knowledge Base";
   return (
     <>
       <meta name="msapplication-TileColor" content="#fff" />

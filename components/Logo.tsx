@@ -5,7 +5,7 @@ export function Logo() {
   return (
     <Image
       src={`${assetPrefix}/logo.png`}
-      alt="Reading notes homepage"
+      alt="RP-ERP Knowledge Base homepage"
       width={30}
       height={30}
     />

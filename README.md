@@ -27,9 +27,12 @@ yarn dev
 - The documents are in Markdown format (https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
 
 ### Steps
+
 - Create a new `md` or `mdx` file in `/pages/docs` folder (ex: `create-ssl-for-viettel-cloud.md`)
 - Add your content
 - Map you file in `_meta.json` to display on Table of Content
+- Commit and push your changes into github to publish your document
+
 
 ## Tools for Editor
 

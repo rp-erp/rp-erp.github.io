@@ -1,5 +1,5 @@
 {
-  "name": "reading-notes",
+  "name": "rp-erp-docs",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,8 +9,7 @@
     "export": "next build && touch out/.nojekyll",
     "lint": "next lint --max-warnings=0",
     "type-check": "tsc",
-    "deploy": "gh-pages -d out -t true",
-    "prepare": "husky install"
+    "deploy": "gh-pages -d out -t true"
   },
   "dependencies": {
     "next": "^14.0.3",
@@ -30,7 +29,6 @@
     "eslint-config-next": "14.0.3",
     "eslint-config-prettier": "^9.0.0",
     "gh-pages": "^6.1.0",
-    "lint-staged": "^15.1.0",
     "prettier": "^3.1.0",
     "typescript": "5.2.2"
   },

@@ -11,7 +11,7 @@ const config: DocsThemeConfig = {
   },
   docsRepositoryBase: "https://github.com/rp-erp/rp-erp.github.io/blob/main",
   footer: {
-    text: "Made by Roman Mkrtchian",
+    text: "Made by RP-ERP",
   },
   head: Head,
   feedback: {

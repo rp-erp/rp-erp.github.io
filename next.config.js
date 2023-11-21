@@ -8,9 +8,7 @@ const isProduction = process.env.NODE_ENV === "production";
 const assetPrefix = isProduction ? "/reading-notes" : "";
 
 const nextConfig = {
-  images: {
-    unoptimized: true,
-  },
+  
   reactStrictMode: true,
   swcMinify: true,
   trailingSlash: true,

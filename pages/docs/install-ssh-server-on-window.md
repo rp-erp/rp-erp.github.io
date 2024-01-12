@@ -1,4 +1,4 @@
-# How to install SSH Server on Windows
+# How to Install SSH Server on Windows
 
 To set up SSH access to your Windows server, you can use the built-in OpenSSH Server. Here's a step-by-step guide:
 
@@ -55,11 +55,19 @@ icacls .ssh\authorized_keys /inheritance:r
 icacls .ssh\authorized_keys /grant "your-username:(F)"
 ```
 
-9. Restart SSH server
+9. Open config file at `C:\\<your-username>\ssh\sshd_config` and remove the # at the beginning of the line to uncomment it, and change 22 to your desired port number. For example, to change the SSH port to `2422`
+
+```
+Port 2422
+```
+
+10. Restart SSH server to take effect
 
 ```
 Restart-Service sshd
 Get-Service sshd
 ```
+
+
 
 

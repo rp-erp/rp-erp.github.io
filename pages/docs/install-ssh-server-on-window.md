@@ -55,13 +55,19 @@ icacls .ssh\authorized_keys /inheritance:r
 icacls .ssh\authorized_keys /grant "your-username:(F)"
 ```
 
-9. Open config file at `C:\\<your-username>\ssh\sshd_config` and remove the # at the beginning of the line to uncomment it, and change 22 to your desired port number. For example, to change the SSH port to `2422`
+9. Open config file at `C:\\ProgramData\ssh\sshd_config` and remove the # at the beginning of the line to uncomment it, and change 22 to your desired port number. For example, to change the SSH port to `2422`
 
 ```
 Port 2422
 ```
 
-10. Restart SSH server to take effect
+10. Open Port `2422`
+
+```
+New-NetFirewallRule -DisplayName "Open Port 2422" -Direction Inbound -LocalPort 2422 -Protocol TCP -Action Allow
+```
+
+11. Restart SSH server to take effect
 
 ```
 Restart-Service sshd

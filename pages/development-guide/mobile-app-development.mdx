@@ -152,6 +152,61 @@ const RFQPendingApprovalItem = React.memo((props: RFQPendingApprovalProps) => {
 });
 ```
 
+### Hooks
+
+Hooks is a component that serve a common logic among the `screen`. Consider this example, we usually fetch data then set it into React State inside an react component, From now, instead doing that, we package all fetch logic and set state into a hook then use it in a react component. Let's see this example
+
+```js showLineNumbers filename="rfq-document-list.screen.tsx"
+
+export const RFQDocumentListScreen = withRPLayout((props: RPProps) => {
+  const { quoteNumber } = props.route.params;
+  const RPStyle = useRPStyles();
+  const { isLoading, data: documents } = useGetRFQDocuments(quoteNumber);
+
+  // On Press Sign button
+  const navigateToDocumentViewer = (document: RFQDocumentDTO) => {
+    props.navigation.navigate(ScreenNavigator.RFQDocumentViewer, {
+      document,
+    });
+  };
+
+  return (
+    <View style={RPStyle.moduleView}>
+      <RFQDocumentList
+        isLoading={isLoading}
+        data={documents || []}
+        onDetail={navigateToDocumentViewer}
+      />
+    </View>
+  );
+});
+
+```
+
+```js showLineNumbers filename="useGetRFQDocuments.tsx"
+
+import { useQuery } from '@tanstack/react-query';
+import { RFQServices } from '../../../../services/sales-marketing/rfq.service';
+
+export const useGetRFQDocuments = (quoteNumber: number) => {
+  return useQuery({
+    queryKey: [useGetRFQDocuments.name, quoteNumber],
+    queryFn: async () => {
+      return RFQServices.getRFQDocuments(quoteNumber);
+    },
+  });
+};
+```
+
+In this example, The `useGetRFQDocuments` hook is used to fetch the RFQ documents associated with the given `quoteNumber`. The isLoading and data (renamed to documents) are destructured from the result of the hook. If the "Sign" button is pressed on a document in the list, the `navigateToDocumentViewer` function is called, which navigates to the `RFQDocumentViewer` screen with the selected document.
+
+<Callout type="info" emoji="📗">
+  `useGetRFQDocuments` is a custom hook that uses the useQuery hook from the react-query library to fetch RFQ documents associated with a given quoteNumber. The queryKey is an array that uniquely identifies this query and the quoteNumber it's associated with. The queryFn is an asynchronous function that calls RFQServices.getRFQDocuments(quoteNumber) to fetch the RFQ documents. The RFQServices is presumably a service module that handles API calls related to RFQs.
+
+  React-Query documentation: https://tanstack.com/query/v3/docs/framework/react/quick-start
+</Callout>
+
+
 ### How to define a new navigation
 
 We use `react-navigation` for the Navigation, you can find the navigation documentation at https://reactnavigation.org/docs/getting-started
@@ -249,3 +304,12 @@ This diagram describes a sequence where the mobile app sends a request to the **
 <Callout type="warning" emoji="⚠️">
   Note: For VN Team, we are using `Cloud` and `Local`.
 </Callout>
+
+## Checklist For Development
+
+- [ ] Create a module folder
+- [ ] Create a sub module folder
+- [ ] Create `components`, `screen` and `hooks` in the sub module folder
+- [ ] Create component file and screen file
+- [ ] Create hooks files
+- [ ] Create services (if any)

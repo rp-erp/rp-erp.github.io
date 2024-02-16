@@ -1,4 +1,6 @@
 {
   "index": "Introduction",
-  "docs": "RP-ERP Knowledge Base"
+  "howto": "Howto",
+  "development-guide": "Development Guide",
+  "process": "Process"
 }

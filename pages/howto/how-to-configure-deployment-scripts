@@ -1,0 +1,99 @@
+# Deployment Script Configuration
+
+## Service
+
+Repository: https://github.com/rp-erp/RPServiceGate
+
+### Service Deploy Script
+
+Create a bat file named `deploy_servicegate.bat` with the following content
+
+```bat
+set HOME=C:\rp-erp
+set RPGLOBAL_HOME=%HOME%\RPGlobal
+set RPGLOBAL_REPO=RPGlobal
+set RPGLOBAL_BRANCH=RPGlobal-Test
+
+set RPSERVICE_GATE_HOME=%HOME%\RPServiceGate
+set RPSERVICE_PUBLISH_GATE_HOME=%HOME%\RPServiceGate\RPPublicServiceGate
+set RPSERVICE_GATE_REPO=RPServiceGate
+set RPSERVICE_GATE_BRANCH=RPServiceGate-Test
+set PUBLISH_PATH=C:\rp-erp
+
+cd %RPGLOBAL_HOME% && git remote set-url origin https://%GITHUB_ACCESS_TOKEN%@github.com/rp-erp/%RPGLOBAL_REPO%.git
+git reset --hard && git checkout %RPGLOBAL_BRANCH% && git fetch origin && git reset --hard origin/%RPGLOBAL_BRANCH% && dotnet build
+
+cd %RPSERVICE_GATE_HOME% && git remote set-url origin https://%GITHUB_ACCESS_TOKEN%@github.com/rp-erp/%RPSERVICE_GATE_REPO%.git
+git reset --hard && git checkout %RPSERVICE_GATE_BRANCH% && git fetch origin && git reset --hard origin/%RPSERVICE_GATE_BRANCH% && dotnet build
+
+iisreset /stop
+
+cd %RPSERVICE_GATE_HOME% && dotnet publish /p:PublishProfile=FolderProfile-Debug -o %PUBLISH_PATH%\RPService
+cd %RPSERVICE_PUBLISH_GATE_HOME% && dotnet publish /p:PublishProfile=FolderProfile -o %PUBLISH_PATH%\ServiceAPI
+
+iisreset /start
+
+```
+
+Here are the VARIABLES that should be updated to match the particular env (Test, Production)
+The script includes some following VARIABLES
+
+- `HOME`: The path of root folder that contains all ERP source code and deployment scripts.
+- `RPGLOBAL_HOME`: The path to RPGlobal source code folder
+- `RPGLOBAL_BRANCH`: `RPGlobal-Test` for Test, `RPGlobal` for Production.
+- `RPSERVICE_GATE_HOME`: The path to RPServiceGate source code folder.
+- `RPSERVICE_PUBLISH_GATE_HOME`: The path to RPPublicServiceGate source code folder.
+- `RPSERVICE_GATE_BRANCH`: `RPServiceGate-Test` for Test, `RPServiceGate` for Production.
+- `PUBLISH_PATH`: The folder path to stores all generated files after build. `C:\rp-erp` is the value on Test env. You can assign any value for Production.
+
+## Web
+
+Repository: https://github.com/rp-erp/RPWebMVC
+
+### Web MVC Building Script
+
+Create a bat file named `build_webmvc.bat` with the following content. This script is to build the RPWebMVC solution.
+
+```bat
+set RPGLOBAL_HOME=C:\rp-erp\RPGlobal
+set RPGLOBAL_REPO=RPGlobal
+set RPGLOBAL_BRANCH=RPGlobal-Test
+
+set RPWEBMVC_HOME=C:\rp-erp\RPWebMVC
+set RPWEBMVC_REPO=RPWebMVC
+set RPWEBMVC_BRANCH=RPWebMVC-Test
+set MSBUILD_HOME=C:\BuildTools\MSBuild\Current\Bin
+
+cd %RPGLOBAL_HOME% && git remote set-url origin https://%GITHUB_ACCESS_TOKEN%@github.com/rp-erp/%RPGLOBAL_REPO%.git
+git reset --hard && git checkout %RPGLOBAL_BRANCH% && git fetch origin && git reset --hard origin/%RPGLOBAL_BRANCH% && dotnet build
+
+cd %RPWEBMVC_HOME% && git remote set-url origin https://%GITHUB_ACCESS_TOKEN%@github.com/rp-erp/%RPWEBMVC_REPO%.git
+git reset --hard && git checkout %RPWEBMVC_BRANCH% && git fetch origin && git reset --hard origin/%RPWEBMVC_BRANCH%
+
+cd %RPWEBMVC_HOME%\RPWebMVC && %MSBUILD_HOME%\msbuild %RPWEBMVC_HOME%\RPWebMVC.sln
+
+```
+
+Here are the VARIABLES that should be updated to match the particular env (Test, Production)
+The script includes some following VARIABLES
+
+- `RPGLOBAL_HOME`: The path to RPGlobal source code folder
+- `RPGLOBAL_BRANCH`: `RPGlobal-Test` for Test, `RPGlobal` for Production.
+- `RPWEBMVC_HOME`: The path to RPWebMVC source code folder.
+- `RPWEBMVC_BRANCH`: `RPWebMVC-Test` for Test, `RPWebMVC` for Production.
+- `MSBUILD_HOME`: The folder path to `msbuild.exe` program.
+
+### Web MVC Angular Deployment Script
+
+Create a bat file named `deploy_webmvc_angular_silent.bat` with the following content. This script is to build web mvc angular source code.
+
+```bat
+set RPWEBMVC_HOME=C:\rp-erp\RPWebMVC
+cd %RPWEBMVC_HOME%\RPWebMVC\Scripts\Angular && yarn install & yarn build::prod
+```
+
+Here are the VARIABLES that should be updated to match the particular env (Test, Production)
+The script includes some following VARIABLES
+
+- `RPWEBMVC_HOME`: The path to RPWebMVC source code folder.
+

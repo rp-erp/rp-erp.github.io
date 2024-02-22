@@ -124,9 +124,58 @@ requirepass <redis_password>
 save 60 1000
 appendonly yes
 dir /redis_db_data
+stop-writes-on-bgsave-error no
 ```
 
-Step 7: Allow Redis port
+Step 7: Create `start.sh` file 
+
+```bash
+sudo redis-stack-server ./redis.conf --daemonize yes
+```
+
+you might get this warning
+
+```
+ WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. Being disabled, it can also cause failures without low memory condition, see https://github.com/jemalloc/jemalloc/issues/1328. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+```
+
+To fix it, execute this command
+
+```
+sudo vim  /etc/sysctl.conf
+```
+
+Then, press `i` to switch to INSERT MODE and add this content
+
+```
+vm.overcommit_memory=1
+```
+
+Next, press `ESC` button then type `:wq` and `ENTER` to save the content.
+Finally, execute this command to load the config
+
+```
+sysctl vm.overcommit_memory=1
+```
+
+Then restart redis server.
+
+Step 8: Create `stop.sh` file
+
+```
+redis-cli -h 127.0.0.1 -p 6380 -a <redis_password> shutdown nosave
+```
+
+Step 9: Start Redis Stack Server
+
+```
+wsl
+bash ./start.sh
+```
+
+Note: to stop server, just execute `bash .\stop.sh`
+
+Step 10: Allow Redis port to external app (optional)
 
 open POWER SHELL and execute the command below
 

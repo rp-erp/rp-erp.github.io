@@ -1,3 +1,6 @@
+import { FileTree } from "nextra/components";
+import { Tabs } from "nextra/components";
+
 # Tooling Services Development
 
 ## Table of Contents
@@ -78,18 +81,95 @@ In general, you can understand the internal communication like following:
 
 ## Development Guide
 
-### How to implement Restful API
-
-Updating...
-
 ### How to implement a Service Provider
 
 Updating...
 
 ### How to implement Restful API
 
-Updating...
+- Step 1: Create a new folder for new Restful API
+- Step 2: Create a controller file.
+- Step 3: Create module file and import the created controller at step 2.
+- Step 4: Create DTO (Data Transfer Object) file then add `@ApiProperty` decorator for the attributes.
+- Step 5: Import the created module at step 3 into `src/api/api-manager.module.ts` file.
+
+For example: I want to create a new Restful API for Document Export. Below are the files and folder I will create in `src/api`.
+
+<FileTree>
+  <FileTree.Folder name="src/api" defaultOpen>
+    <FileTree.Folder name="export-document-api" defaultOpen>
+      <FileTree.File name="export-document-api.controller.ts" />
+      <FileTree.File name="export-document-api.module.ts" />
+    </FileTree.Folder>
+  </FileTree.Folder>
+</FileTree>
+
+<Tabs
+  items={[
+    "export-document-api.controller.ts",
+    "export-document-api.module.ts",
+    "api-manager.module.ts",
+  ]}
+>
+  <Tabs.Tab>
+  
+    ```typescript showLineNumbers copy
+      //Endpoint: POST /api/export-document/po-signed-document/:extension
+      import { Controller, HttpCode, Post, Req } from '@nestjs/common';
+      import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
+      import { GenericRequestBodyDTO } from '../generic-request-body.dto';
+
+      @ApiTags('Export Document')
+      @Controller('api/export-document')
+      export class ExportDocumentApiController {
+        @Post('po-signed-document/:extension')
+        @ApiResponse({ status: 200, description: 'Successfully' })
+        @ApiBody({ type: GenericRequestBodyDTO })
+        @HttpCode(200)
+        async exportPOSignedDocument(@Req() req) {
+          return { message: `PO Signed Document  has been put in queue successfully` };
+        }
+      }
+
+    ```
+
+</Tabs.Tab>
+  <Tabs.Tab>
+
+    ```typescript showLineNumbers copy
+    import { Module } from '@nestjs/common';
+    import { ExportDocumentApiController } from './export-document-api.controller';
+
+    @Module({
+      imports: [],
+      controllers: [ExportDocumentApiController]
+    })
+    export class ExportDocumentApiModule { }
+    ```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```typescript showLineNumbers copy
+      import { Module } from '@nestjs/common';
+      import { ConvertApiModule } from './convert-api/convert-api.module';
+      import { ExportDocumentApiModule } from './export-document-api/export-document-api.module';
+
+      @Module({
+        imports: [
+          ConvertApiModule,
+          ExportDocumentApiModule
+        ],
+      })
+      export class ApiManagerModule { }
+    ```
+
+  </Tabs.Tab>
+</Tabs>
 
 ### How to implement Queue Processor
 
 Updating...
+
+```
+
+```

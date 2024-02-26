@@ -155,7 +155,7 @@ Next, press `ESC` button then type `:wq` and `ENTER` to save the content.
 Finally, execute this command to load the config
 
 ```
-sysctl vm.overcommit_memory=1
+sudo sysctl vm.overcommit_memory=1
 ```
 
 Then restart redis server.
@@ -170,7 +170,7 @@ Step 9: Start Redis Stack Server
 
 ```
 wsl
-bash ./start.sh
+sudo bash ./start.sh
 ```
 
 Note: to stop server, just execute `bash .\stop.sh`
